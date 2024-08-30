@@ -12,7 +12,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
   final controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..loadRequest(
-        Uri.parse("http://192.168.0.251/dippy_webcue/adds_container.php"));
+        Uri.parse("http://119.93.151.12:8003/dippy_webcue/adds_container.php"));
 
   @override
   Widget build(BuildContext context) {
