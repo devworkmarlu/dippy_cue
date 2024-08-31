@@ -61,7 +61,7 @@ class _BillPaymentState extends State<BillPayment> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        appUtil.showAnimatedDialog(context);
+                        appUtil.showInputAccountDialog(context);
                       },
                       child: Text(
                         'Select Bill Payment',
