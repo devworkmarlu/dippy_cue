@@ -18,6 +18,7 @@ class DippyAppTheme {
   static const Color deactivatedText = Color(0xFF767676);
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color spacer = Color(0xFFF2F2F2);
+
   static const String fontName = 'Roboto';
 
   static const TextStyle display1 = TextStyle(
@@ -51,6 +52,22 @@ class DippyAppTheme {
     fontSize: 14,
     letterSpacing: -0.04,
     color: darkText,
+  );
+
+  static const TextStyle statusInactive = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w400,
+    fontSize: 13,
+    letterSpacing: -0.04,
+    color: Colors.redAccent,
+  );
+
+  static const TextStyle statusActive = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w400,
+    fontSize: 13,
+    letterSpacing: -0.04,
+    color: Colors.greenAccent,
   );
 
   static const TextStyle body2 = TextStyle(
