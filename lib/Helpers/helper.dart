@@ -27,7 +27,7 @@ class AppUtility {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      'Input Account Number',
+                      'Bill Payment',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),

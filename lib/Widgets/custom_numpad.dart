@@ -13,6 +13,10 @@ class _CustomNumpadState extends State<CustomNumpad> {
   TextEditingController classController = TextEditingController();
   TextEditingController acctController = TextEditingController();
 
+  bool zoneTapped = false;
+  bool classTapped = false;
+  bool acctTapped = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -47,10 +51,20 @@ class _CustomNumpadState extends State<CustomNumpad> {
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: TextFormField(
+                              onTapOutside: (event) {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              onTap: () {
+                                setState(() {
+                                  zoneTapped = true;
+                                  classTapped = false;
+                                  acctTapped = false;
+                                });
+                              },
                               controller: zoneController,
                               style: TextStyle(
                                   fontSize: 50.0, fontWeight: FontWeight.bold),
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.none,
                               enabled: true,
                               decoration: const InputDecoration(
                                   labelText: 'Zone Code',
@@ -62,6 +76,16 @@ class _CustomNumpadState extends State<CustomNumpad> {
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: TextFormField(
+                              onTapOutside: (event) {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              onTap: () {
+                                setState(() {
+                                  classTapped = true;
+                                  zoneTapped = false;
+                                  acctTapped = false;
+                                });
+                              },
                               controller: classController,
                               style: TextStyle(
                                   fontSize: 50.0, fontWeight: FontWeight.bold),
@@ -77,6 +101,14 @@ class _CustomNumpadState extends State<CustomNumpad> {
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: TextFormField(
+                              onTapOutside: (event) {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              onTap: () {
+                                acctTapped = true;
+                                classTapped = false;
+                                zoneTapped = false;
+                              },
                               controller: acctController,
                               style: TextStyle(
                                   fontSize: 50.0, fontWeight: FontWeight.bold),
@@ -344,9 +376,35 @@ class _CustomNumpadState extends State<CustomNumpad> {
   }
 
   void _inputString(String input) {
+    if (zoneController.text.length == 3 &&
+        classController.text.length == 3 &&
+        acctController.text.isNotEmpty) {
+      acctTapped = true;
+      classTapped = false;
+      zoneTapped = false;
+    }
+
+    if (zoneTapped && zoneController.text.length != 3) {
+      String currentVal = zoneController.text + input;
+      zoneController.text = currentVal;
+      return;
+    }
+
+    if (classTapped && classController.text.length != 3) {
+      String currentVal = classController.text + input;
+      classController.text = currentVal;
+      return;
+    }
+
+    if (acctTapped && acctController.text.length != 4) {
+      String currentVal = acctController.text + input;
+      acctController.text = currentVal;
+      return;
+    }
+
     if (zoneController.text.length != 3 &&
-        classController.text.length == 0 &&
-        acctController.text.length == 0) {
+        classController.text.isEmpty &&
+        acctController.text.isEmpty) {
       String currentVal = zoneController.text + input;
       zoneController.text = currentVal;
       return;
@@ -370,23 +428,41 @@ class _CustomNumpadState extends State<CustomNumpad> {
   }
 
   void removeString() {
-    if (zoneController.text.length == 3 &&
-        classController.text.length == 3 &&
-        acctController.text.length != 0) {
+    if (zoneTapped && zoneController.text.isNotEmpty) {
+      String value = zoneController.text;
+      zoneController.text = value.substring(0, value.length - 1);
+      return;
+    }
+
+    if (classTapped && classController.text.isNotEmpty) {
+      String value = classController.text;
+      classController.text = value.substring(0, value.length - 1);
+      return;
+    }
+
+    if (acctTapped && acctController.text.isNotEmpty) {
       String value = acctController.text;
       acctController.text = value.substring(0, value.length - 1);
       return;
     }
 
     if (zoneController.text.length == 3 &&
-        classController.text.length != 0 &&
+        classController.text.length == 3 &&
+        acctController.text.isNotEmpty) {
+      String value = acctController.text;
+      acctController.text = value.substring(0, value.length - 1);
+      return;
+    }
+
+    if (zoneController.text.length == 3 &&
+        classController.text.isNotEmpty &&
         acctController.text.length == 0) {
       String value = classController.text;
       classController.text = value.substring(0, value.length - 1);
       return;
     }
 
-    if (zoneController.text.length != 0 &&
+    if (zoneController.text.isNotEmpty &&
         classController.text.length == 0 &&
         acctController.text.length == 0) {
       String value = zoneController.text;
