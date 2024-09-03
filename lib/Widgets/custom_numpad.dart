@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:dippy_cue/Helpers/WebRequest.dart';
+import 'package:dippy_cue/Helpers/helper.dart';
 import 'package:dippy_cue/dippy_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomNumpad extends StatefulWidget {
   const CustomNumpad({super.key});
@@ -13,9 +19,21 @@ class _CustomNumpadState extends State<CustomNumpad> {
   TextEditingController classController = TextEditingController();
   TextEditingController acctController = TextEditingController();
 
+  TextEditingController controllerWaterBalance = TextEditingController();
+  TextEditingController controllerInstallment = TextEditingController();
+  TextEditingController controllerMaterials = TextEditingController();
+  TextEditingController controllerSeptage = TextEditingController();
+  TextEditingController controllerNMWF = TextEditingController();
+  TextEditingController controllerOthers = TextEditingController();
+  TextEditingController controllerTotal = TextEditingController();
+
   bool zoneTapped = false;
   bool classTapped = false;
   bool acctTapped = false;
+  bool showDetails = false;
+  Widget customerDetailsContainer = Container();
+
+  AppUtility appUtil = AppUtility();
 
   @override
   void initState() {
@@ -131,40 +149,9 @@ class _CustomNumpadState extends State<CustomNumpad> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 40,
                         ),
-                        Column(
-                          children: [
-                            ClipOval(
-                              child: SizedBox.fromSize(
-                                size: Size.fromRadius(90), // Image radius
-                                child: Image.network(
-                                    'http://119.93.151.12:8003/water_flow/assets/img/avatars/1.png',
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              'CAERMARE, RAUL A. (SC)',
-                              style: DippyAppTheme.headline,
-                            ),
-                            Text(
-                              'Sta. Felomina, Dipolog City',
-                              style: DippyAppTheme.subtitle,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '(Active)',
-                                  style: DippyAppTheme.statusActive,
-                                )
-                              ],
-                            )
-                          ],
-                        )
+                        showDetails ? customerDetailsContainer : Container()
                       ],
                     )),
               ),
@@ -174,7 +161,7 @@ class _CustomNumpadState extends State<CustomNumpad> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Flexible(
                           flex: 1,
                           child: Material(
@@ -498,6 +485,7 @@ class _CustomNumpadState extends State<CustomNumpad> {
                               }, // needed
                               child: Image.asset(
                                 "assets/icons/backspace.png",
+                                color: Colors.red,
                                 width: buttonWidth,
                                 fit: BoxFit.cover,
                               ),
@@ -527,9 +515,12 @@ class _CustomNumpadState extends State<CustomNumpad> {
                             // needed
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {}, // needed
+                              onTap: () {
+                                RequestData();
+                              }, // needed
                               child: Image.asset(
                                 "assets/icons/check.png",
+                                color: Colors.green,
                                 width: buttonWidth,
                                 fit: BoxFit.cover,
                               ),
@@ -564,15 +555,223 @@ class _CustomNumpadState extends State<CustomNumpad> {
     );
   }
 
-  void _inputString(String input) {
-    /* if (zoneController.text.length == 3 &&
-        classController.text.length == 3 &&
-        acctController.text.isNotEmpty) {
-      acctTapped = true;
-      classTapped = false;
-      zoneTapped = false;
-    } */
+  Future<void> RequestData() async {
+    final versioname = "H2Flow.0.6";
+    String acctInputData =
+        zoneController.text + classController.text + acctController.text;
 
+    final formData = FormData.fromMap({
+      'purpose': 'generalpurpose',
+      'data': acctInputData,
+      'vname': versioname
+    });
+
+    Response response2 = await WebRequest.dataFetch(
+        'http://119.93.151.12:8003/dipcwd_api/', formData);
+
+    print("From Genral Purpose:${response2.statusCode}");
+    if (response2.statusCode == 200) {
+      //print(response2.data);
+      print('From Genral Purpose:${response2.data}');
+
+      var res = json.decode(response2.data);
+      bool isValid = false;
+      if (res['error'] == false) {
+        isValid = true;
+        controllerWaterBalance.text = res['wb_balance'].toString();
+        controllerInstallment.text = res['installment'].toString();
+        controllerMaterials.text = res['latestMaterials'].toString();
+        controllerSeptage.text = res['ar_septage'].toString();
+        controllerNMWF.text = res['ar_nwmf'].toString();
+        controllerOthers.text = res['ar_others'].toString();
+        controllerTotal.text = res['total_payable'].toString();
+        customerDetailsContainer = Container(
+          child: Column(
+            children: [
+              appUtil.foundAccountDetails(isValid, res['customer_imagelink'],
+                  res['customer_fullname'], res['customer_address'], true),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: TextFormField(
+                                  style: TextStyle(fontSize: 20),
+                                  controller: controllerWaterBalance,
+                                  keyboardType: TextInputType.none,
+                                  decoration:
+                                      InputDecoration(labelText: 'Water Bill'),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                child: TextFormField(
+                                  style: TextStyle(fontSize: 20),
+                                  controller: controllerInstallment,
+                                  keyboardType: TextInputType.none,
+                                  decoration:
+                                      InputDecoration(labelText: 'Installment'),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                child: TextFormField(
+                                  style: TextStyle(fontSize: 20),
+                                  controller: controllerMaterials,
+                                  keyboardType: TextInputType.none,
+                                  decoration:
+                                      InputDecoration(labelText: 'Materials'),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                child: TextFormField(
+                                  style: TextStyle(fontSize: 20),
+                                  controller: controllerSeptage,
+                                  keyboardType: TextInputType.none,
+                                  decoration:
+                                      InputDecoration(labelText: 'Septage'),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                child: TextFormField(
+                                  style: TextStyle(fontSize: 20),
+                                  controller: controllerNMWF,
+                                  keyboardType: TextInputType.none,
+                                  decoration: InputDecoration(
+                                      labelText: 'Water Meter Maint.'),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                child: TextFormField(
+                                  style: TextStyle(fontSize: 20),
+                                  controller: controllerOthers,
+                                  keyboardType: TextInputType.none,
+                                  decoration:
+                                      InputDecoration(labelText: 'Others'),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          child: TextFormField(
+                            controller: controllerTotal,
+                            style: TextStyle(fontSize: 30),
+                            keyboardType: TextInputType.none,
+                            decoration:
+                                InputDecoration(labelText: 'Total Payable'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'Proceed to:',
+                          style: DippyAppTheme.subtitle,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {},
+                                        child: const Text(
+                                          'Teller',
+                                          style: TextStyle(fontSize: 20),
+                                        )),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                        onPressed: () {},
+                                        child: const Text(
+                                          'Cust. Services',
+                                          style: TextStyle(fontSize: 20),
+                                        )),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      } else {
+        customerDetailsContainer = Column(
+          children: [
+            appUtil.foundAccountDetails(isValid, '', '', '', false),
+          ],
+        );
+      }
+
+      setState(() {
+        showDetails = true;
+      });
+    } else {}
+  }
+
+  void _inputString(String input) {
     if (zoneTapped && zoneController.text.length != 3) {
       String currentVal = zoneController.text + input;
       zoneController.text = currentVal;

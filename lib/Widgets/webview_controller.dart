@@ -18,6 +18,8 @@ class _WebViewContainerState extends State<WebViewContainer> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Container(
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15))),
       margin: const EdgeInsets.only(right: 30.0),
       child: WebViewWidget(
         controller: controller,

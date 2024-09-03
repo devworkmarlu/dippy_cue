@@ -56,7 +56,7 @@ class DippyAppTheme {
 
   static const TextStyle statusInactive = TextStyle(
     fontFamily: fontName,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w600,
     fontSize: 13,
     letterSpacing: -0.04,
     color: Colors.redAccent,
@@ -64,7 +64,7 @@ class DippyAppTheme {
 
   static const TextStyle statusActive = TextStyle(
     fontFamily: fontName,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w600,
     fontSize: 13,
     letterSpacing: -0.04,
     color: Colors.greenAccent,

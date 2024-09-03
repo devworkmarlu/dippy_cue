@@ -113,38 +113,29 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
 
     listViews.add(Container(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-            flex: 1,
-            child: SizedBox(
-              width: screenWidth / 2,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
               child: MainCard(
-                cardContent: const BillPayment(),
-                animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                    CurvedAnimation(
-                        parent: animationController!,
-                        curve: Interval((1 / 2) * 1, 1.0,
-                            curve: Curves.fastOutSlowIn))),
-                animationController: animationController!,
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: SizedBox(
-              width: screenWidth / 2,
+            cardContent: const BillPayment(),
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval((1 / 2) * 1, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: animationController!,
+          )),
+          Expanded(
               child: MainCard(
-                cardContent: const AcctInquire(),
-                animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                    CurvedAnimation(
-                        parent: animationController!,
-                        curve: Interval((1 / 3) * 1, 1.0,
-                            curve: Curves.fastOutSlowIn))),
-                animationController: animationController!,
-              ),
-            ),
-          )
+            cardContent: const AcctInquire(),
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval((1 / 3) * 1, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: animationController!,
+          )),
         ],
       ),
     ));
@@ -245,18 +236,22 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Dippy Kiosk',
-                                  textAlign: TextAlign.left,
+                                  'Dippy Customer Service Kiosk',
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: DippyAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
+                                    fontSize: 28 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
-                                    color: DippyAppTheme.nearlyBlack,
+                                    color: DippyAppTheme.nearlyDarkBlue,
                                   ),
                                 ),
                               ),
                             ),
+                            TextButton.icon(
+                                icon: const Icon(Icons.settings),
+                                onPressed: () {},
+                                label: Text('Settings'))
                           ],
                         ),
                       )
