@@ -1,3 +1,5 @@
+import 'package:dippy_cue/Widgets/custom_numpad.dart';
+import 'package:dippy_cue/Widgets/pop_card.dart';
 import 'package:dippy_cue/dippy_themes.dart';
 import 'package:flutter/material.dart';
 
@@ -25,13 +27,13 @@ class _AcctInquireState extends State<AcctInquire> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(right: 100, left: 10),
+            padding: EdgeInsets.only(right: 100, left: 10, top: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Account Inquire',
+                  'Customer Service',
                   style: DippyAppTheme.headline,
                 ),
                 SizedBox(
@@ -44,12 +46,29 @@ class _AcctInquireState extends State<AcctInquire> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Select Account Inquire',
-                      style: DippyAppTheme.body1,
-                    ))
+                PopUpCard(
+                    popUpDisplay: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15)),
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.support_agent_rounded,
+                            size: 30,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'Select Customer Service',
+                            style: DippyAppTheme.title,
+                          )
+                        ],
+                      ),
+                    ),
+                    popUpContent: Container(child: CustomNumpad()),
+                    cardTag: 'customnumpadcontext')
               ],
             ),
           ),

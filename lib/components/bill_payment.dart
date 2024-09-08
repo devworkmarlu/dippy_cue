@@ -1,4 +1,6 @@
 import 'package:dippy_cue/Helpers/helper.dart';
+import 'package:dippy_cue/Widgets/custom_numpad.dart';
+import 'package:dippy_cue/Widgets/pop_card.dart';
 import 'package:dippy_cue/dippy_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:popup_card/popup_card.dart';
@@ -30,7 +32,7 @@ class _BillPaymentState extends State<BillPayment> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(right: 100, left: 10),
+            padding: EdgeInsets.only(right: 100, left: 10, top: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +60,30 @@ class _BillPaymentState extends State<BillPayment> {
                 SizedBox(
                   height: 10,
                 ),
-                appUtil.showPopUpitem(context),
+                PopUpCard(
+                    popUpDisplay: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15)),
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.payment_rounded,
+                            size: 30,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'Select Bill Payment',
+                            style: DippyAppTheme.title,
+                          )
+                        ],
+                      ),
+                    ),
+                    popUpContent: Container(child: CustomNumpad()),
+                    cardTag: 'billpaymentdialog'),
+                //appUtil.showPopUpitem(context),
                 /* ElevatedButton(
                     onPressed: () {
                       appUtil.showInputAccountDialog(context);

@@ -556,7 +556,7 @@ class _CustomNumpadState extends State<CustomNumpad> {
   }
 
   Future<void> RequestData() async {
-    final versioname = "H2Flow.0.6";
+    final versioname = "H2Flow.0.7";
     String acctInputData =
         zoneController.text + classController.text + acctController.text;
 
