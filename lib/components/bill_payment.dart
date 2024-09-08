@@ -1,6 +1,7 @@
 import 'package:dippy_cue/Helpers/helper.dart';
 import 'package:dippy_cue/dippy_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:popup_card/popup_card.dart';
 
 class BillPayment extends StatefulWidget {
   const BillPayment({super.key});
@@ -57,14 +58,15 @@ class _BillPaymentState extends State<BillPayment> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
+                appUtil.showPopUpitem(context),
+                /* ElevatedButton(
                     onPressed: () {
                       appUtil.showInputAccountDialog(context);
                     },
                     child: Text(
                       'Select Bill Payment',
                       style: DippyAppTheme.body1,
-                    ))
+                    )) */
               ],
             ),
           ),

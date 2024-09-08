@@ -2,8 +2,59 @@ import 'package:dippy_cue/Widgets/box_container.dart';
 import 'package:dippy_cue/Widgets/custom_numpad.dart';
 import 'package:dippy_cue/dippy_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:popup_card/popup_card.dart';
 
 class AppUtility {
+  Widget showPopUpitem(BuildContext context) {
+    return PopupItemLauncher(
+      tag: 'test2',
+      child: Material(
+        color: Colors.white,
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        child: const Row(
+          children: <Widget>[
+            Icon(
+              Icons.payment_rounded,
+              size: 56,
+            ),
+            Text('Select Bill Payment')
+          ],
+        ),
+      ),
+      popUp: PopUpItem(
+        padding: EdgeInsets.all(8), // Padding inside of the card
+        color: Colors.white, // Color of the card
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(32)), // Shape of the card
+        elevation: 2, // Elevation of the card
+        tag: 'test2', // MUST BE THE SAME AS IN `PopupItemLauncher`
+        child: Column(
+          children: [
+            Text(
+              'Bill Payment',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            CustomNumpad(),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            )
+          ],
+        ), // Your custom child widget.
+      ),
+    );
+  }
+
   void showInputCustomerServiceDialog(BuildContext context) {
     showGeneralDialog(
       context: context,
@@ -13,7 +64,6 @@ class AppUtility {
       transitionDuration: Duration(milliseconds: 300),
       pageBuilder: (BuildContext buildContext, Animation animation,
           Animation secondaryAnimation) {
-        const double buttonWidth = 100.0;
         return Center(
           child: Material(
             color: Colors.transparent,
@@ -73,7 +123,6 @@ class AppUtility {
       transitionDuration: Duration(milliseconds: 300),
       pageBuilder: (BuildContext buildContext, Animation animation,
           Animation secondaryAnimation) {
-        const double buttonWidth = 100.0;
         return Center(
           child: Material(
             color: Colors.transparent,
