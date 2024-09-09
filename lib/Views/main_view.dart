@@ -1,6 +1,8 @@
+import 'package:dippy_cue/Helpers/helper.dart';
 import 'package:dippy_cue/Widgets/animated_glass.dart';
 import 'package:dippy_cue/Widgets/custom_numpad.dart';
 import 'package:dippy_cue/Widgets/main_card.dart';
+import 'package:dippy_cue/Widgets/number_req.dart';
 import 'package:dippy_cue/Widgets/pop_card.dart';
 import 'package:dippy_cue/components/acct_inquire.dart';
 import 'package:dippy_cue/components/bill_payment.dart';
@@ -28,6 +30,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   double screenWidth = 0.0;
   bool _isLoading = true;
   List<String> listofBills = [];
+  AppUtility userFunction = AppUtility();
 
   @override
   void initState() {
@@ -80,121 +83,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           curve: Interval((1 / 1) * 1, 1.0, curve: Curves.fastOutSlowIn))),
       animationController: animationController!,
     ));
-
-    listViews.add(Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  child: PopUpCard(
-                      popUpDisplay: MainCard(
-                        cardContent: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            children: [
-                              Icon(Icons.payment_outlined),
-                              Text('Regular Teller',
-                                  style: DippyAppTheme.headline)
-                            ],
-                          ),
-                        ),
-                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / 2) * 1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
-                        animationController: animationController!,
-                      ),
-                      popUpContent: Container(),
-                      cardTag: 'regularteller'),
-                ),
-              ),
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: MainCard(
-                      cardContent: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.payment_outlined),
-                            Text(
-                              'Priority Teller',
-                              style: DippyAppTheme.headline,
-                            )
-                          ],
-                        ),
-                      ),
-                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / 2) * 1, 1.0,
-                                  curve: Curves.fastOutSlowIn))),
-                      animationController: animationController!,
-                    ),
-                    popUpContent: Container(),
-                    cardTag: 'priorityteller'),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: MainCard(
-                      cardContent: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.payment_outlined),
-                            Text('Regular Customer Service',
-                                style: DippyAppTheme.headline)
-                          ],
-                        ),
-                      ),
-                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / 2) * 1, 1.0,
-                                  curve: Curves.fastOutSlowIn))),
-                      animationController: animationController!,
-                    ),
-                    popUpContent: Container(),
-                    cardTag: 'regularcustservice'),
-              ),
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: MainCard(
-                      cardContent: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.payment_outlined),
-                            Text(
-                              'Priority Customer Service',
-                              style: DippyAppTheme.headline,
-                            )
-                          ],
-                        ),
-                      ),
-                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / 2) * 1, 1.0,
-                                  curve: Curves.fastOutSlowIn))),
-                      animationController: animationController!,
-                    ),
-                    popUpContent: Container(),
-                    cardTag: 'prioritycustomerservice'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ));
-
+    String latestNumber = await userFunction.requestLatestNumber('RT');
     listViews.add(Container(
       child: Column(
         children: <Widget>[
@@ -308,7 +197,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                           animation: Tween<double>(begin: 0.0, end: 1.0)
                               .animate(CurvedAnimation(
                                   parent: animationController!,
-                                  curve: Interval((1 / 2) * 1, 1.0,
+                                  curve: Interval((1 / 3) * 1, 1.0,
                                       curve: Curves.fastOutSlowIn))),
                           animationController: animationController!,
                         ),
@@ -336,31 +225,125 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
       ),
     ));
 
+    //listViews.add(NumberRequest(cuetype: 'RT'));
+
     listViews.add(Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
         children: <Widget>[
-          Expanded(
-              child: MainCard(
-            cardContent: const BillPayment(),
-            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                CurvedAnimation(
-                    parent: animationController!,
-                    curve: Interval((1 / 2) * 1, 1.0,
-                        curve: Curves.fastOutSlowIn))),
-            animationController: animationController!,
-          )),
-          Expanded(
-              child: MainCard(
-            cardContent: const AcctInquire(),
-            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                CurvedAnimation(
-                    parent: animationController!,
-                    curve: Interval((1 / 3) * 1, 1.0,
-                        curve: Curves.fastOutSlowIn))),
-            animationController: animationController!,
-          )),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    print('Hello world');
+                  },
+                  child: Container(
+                    child: PopUpCard(
+                        popUpDisplay: MainCard(
+                          cardContent: Container(
+                            padding: EdgeInsets.all(20),
+                            child: Row(
+                              children: [
+                                Icon(Icons.payment_outlined),
+                                Text('Regular Teller',
+                                    style: DippyAppTheme.headline)
+                              ],
+                            ),
+                          ),
+                          animation: Tween<double>(begin: 0.0, end: 1.0)
+                              .animate(CurvedAnimation(
+                                  parent: animationController!,
+                                  curve: Interval((1 / 4) * 1, 1.0,
+                                      curve: Curves.fastOutSlowIn))),
+                          animationController: animationController!,
+                        ),
+                        popUpContent: Container(
+                          child: NumberRequest(cuetype: 'RT'),
+                        ),
+                        cardTag: 'regularteller'),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: PopUpCard(
+                    popUpDisplay: MainCard(
+                      cardContent: Container(
+                        padding: EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            Icon(Icons.payment_outlined),
+                            Text(
+                              'Priority Teller',
+                              style: DippyAppTheme.headline,
+                            )
+                          ],
+                        ),
+                      ),
+                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                              parent: animationController!,
+                              curve: Interval((1 / 4) * 1, 1.0,
+                                  curve: Curves.fastOutSlowIn))),
+                      animationController: animationController!,
+                    ),
+                    popUpContent: NumberRequest(cuetype: 'PT'),
+                    cardTag: 'priorityteller'),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: PopUpCard(
+                    popUpDisplay: MainCard(
+                      cardContent: Container(
+                        padding: EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            Icon(Icons.payment_outlined),
+                            Text('Regular Customer Service',
+                                style: DippyAppTheme.headline)
+                          ],
+                        ),
+                      ),
+                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                              parent: animationController!,
+                              curve: Interval((1 / 4) * 1, 1.0,
+                                  curve: Curves.fastOutSlowIn))),
+                      animationController: animationController!,
+                    ),
+                    popUpContent: Container(),
+                    cardTag: 'regularcustservice'),
+              ),
+              Expanded(
+                child: PopUpCard(
+                    popUpDisplay: MainCard(
+                      cardContent: Container(
+                        padding: EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            Icon(Icons.payment_outlined),
+                            Text(
+                              'Priority Customer Service',
+                              style: DippyAppTheme.headline,
+                            )
+                          ],
+                        ),
+                      ),
+                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                              parent: animationController!,
+                              curve: Interval((1 / 4) * 1, 1.0,
+                                  curve: Curves.fastOutSlowIn))),
+                      animationController: animationController!,
+                    ),
+                    popUpContent: Container(),
+                    cardTag: 'prioritycustomerservice'),
+              ),
+            ],
+          ),
         ],
       ),
     ));
@@ -368,6 +351,10 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<Widget> requestNumberContainer() async {
+    return Container();
   }
 
   void loadListViews() {

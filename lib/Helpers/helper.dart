@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:dippy_cue/Helpers/WebRequest.dart';
 import 'package:dippy_cue/Widgets/box_container.dart';
 import 'package:dippy_cue/Widgets/custom_numpad.dart';
 import 'package:dippy_cue/dippy_themes.dart';
@@ -233,6 +237,28 @@ class AppUtility {
         ),
       );
     }
+    return retval;
+  }
+
+  Future<String> requestLatestNumber(String cuetype) async {
+    String retval = "";
+
+    final formData =
+        FormData.fromMap({'purpose': 'requestnumber', 'parameters': cuetype});
+
+    Response response2 = await WebRequest.dataFetch(
+        'http://192.168.0.253/readers_api/dip_mod_api/cue_controller.php',
+        formData);
+
+    if (response2.statusCode == 200) {
+      var res = json.decode(response2.data);
+      print(res['data_response']['cue_num']);
+      int newNumber = (int.parse(res['data_response']['cue_num']) == 100)
+          ? 0
+          : int.parse(res['data_response']['cue_num']) + 1;
+      retval = cuetype + newNumber.toString();
+    }
+
     return retval;
   }
 
