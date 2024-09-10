@@ -241,8 +241,8 @@ class AppUtility {
   }
 
   Future<String> requestLatestNumber(String cuetype) async {
+    await Future.delayed(Duration(seconds: 1));
     String retval = "";
-
     final formData =
         FormData.fromMap({'purpose': 'requestnumber', 'parameters': cuetype});
 

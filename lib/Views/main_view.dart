@@ -314,7 +314,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                                   curve: Curves.fastOutSlowIn))),
                       animationController: animationController!,
                     ),
-                    popUpContent: Container(),
+                    popUpContent: NumberRequest(cuetype: 'RC'),
                     cardTag: 'regularcustservice'),
               ),
               Expanded(
@@ -339,7 +339,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                                   curve: Curves.fastOutSlowIn))),
                       animationController: animationController!,
                     ),
-                    popUpContent: Container(),
+                    popUpContent: NumberRequest(cuetype: 'PC'),
                     cardTag: 'prioritycustomerservice'),
               ),
             ],

@@ -29,21 +29,22 @@ class _PopUpCardState extends State<PopUpCard> {
             borderRadius: BorderRadius.circular(32)), // Shape of the card
         elevation: 2, // Elevation of the card
         tag: widget.cardTag, // MUST BE THE SAME AS IN `PopupItemLauncher`
-        child: Column(
-          children: [
-            widget.popUpContent,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Close'),
-                ),
-              ],
-            )
-          ],
+        child: Container(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.close)),
+                ],
+              ),
+              widget.popUpContent,
+            ],
+          ),
         ), // Your custom child widget.
       ),
     );
