@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -240,9 +241,27 @@ class AppUtility {
     return retval;
   }
 
-  Future<String> requestLatestNumber(String cuetype) async {
+  Future<String> addNewNumber(String cueNumber, String cueType) async {
+    String retval = "failed";
+
+    final formData = FormData.fromMap(
+        {'purpose': 'addnewnumber', 'parameters': cueType + '-' + cueNumber});
+
+    Response response = await WebRequest.dataFetch(
+        'http://192.168.0.253/readers_api/dip_mod_api/cue_controller.php',
+        formData);
+
+    if (response.statusCode == 200) {
+      var res = json.decode(response.data);
+      print(res);
+      retval = res['msg'];
+    }
+    return retval;
+  }
+
+  Future<dynamic> requestLatestNumber(String cuetype) async {
     await Future.delayed(Duration(seconds: 1));
-    String retval = "";
+    var retval = [];
     final formData =
         FormData.fromMap({'purpose': 'requestnumber', 'parameters': cuetype});
 
@@ -252,11 +271,15 @@ class AppUtility {
 
     if (response2.statusCode == 200) {
       var res = json.decode(response2.data);
+      print(res);
       print(res['data_response']['cue_num']);
       int newNumber = (int.parse(res['data_response']['cue_num']) == 100)
           ? 0
           : int.parse(res['data_response']['cue_num']) + 1;
-      retval = cuetype + newNumber.toString();
+      //retval = cuetype + newNumber.toString();
+      retval = [
+        {"cuetype": cuetype, "cuenumber": newNumber.toString()}
+      ];
     }
 
     return retval;

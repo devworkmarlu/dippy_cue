@@ -75,6 +75,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
 
     await Future.delayed(Duration(seconds: 1));
     final SharedPreferences pref = await _pref;
+    var deviceOrientation = MediaQuery.of(context).orientation;
     listViews.clear();
     listViews.add(MainCard(
       cardContent: const HeaderBanner(),
@@ -83,146 +84,10 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
           curve: Interval((1 / 1) * 1, 1.0, curve: Curves.fastOutSlowIn))),
       animationController: animationController!,
     ));
-    String latestNumber = await userFunction.requestLatestNumber('RT');
     listViews.add(Container(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: Stack(
-                      children: [
-                        MainCard(
-                          cardContent: Container(
-                            padding: EdgeInsets.only(
-                                left: 20, top: 20, right: 100, bottom: 20),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.payments_rounded,
-                                            size: 60,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text('Bill Payment',
-                                              style: DippyAppTheme.headline)
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 30),
-                                    Container(
-                                      child: Text(
-                                          textAlign: TextAlign.justify,
-                                          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                          style: DippyAppTheme.body1),
-                                    )
-                                  ],
-                                ))
-                              ],
-                            ),
-                          ),
-                          animation: Tween<double>(begin: 0.0, end: 1.0)
-                              .animate(CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / 2) * 1, 1.0,
-                                      curve: Curves.fastOutSlowIn))),
-                          animationController: animationController!,
-                        ),
-                        Positioned(
-                          top: -10,
-                          right: -80,
-                          child: SizedBox(
-                            width: 300,
-                            height: 280,
-                            child:
-                                Image.asset('assets/images/dippy_whole2.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    popUpContent: Container(
-                      padding: EdgeInsets.all(15),
-                      child: CustomNumpad(),
-                    ),
-                    cardTag: 'billingpaymentdialog'),
-              ),
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: Stack(
-                      children: [
-                        MainCard(
-                          cardContent: Container(
-                            padding: EdgeInsets.only(
-                                left: 20, top: 20, right: 100, bottom: 20),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
-                                  children: [
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.support_agent_rounded,
-                                            size: 60,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text('Customer Service',
-                                              style: DippyAppTheme.headline)
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 30),
-                                    Container(
-                                      child: Text(
-                                          textAlign: TextAlign.justify,
-                                          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                          style: DippyAppTheme.body1),
-                                    )
-                                  ],
-                                ))
-                              ],
-                            ),
-                          ),
-                          animation: Tween<double>(begin: 0.0, end: 1.0)
-                              .animate(CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / 3) * 1, 1.0,
-                                      curve: Curves.fastOutSlowIn))),
-                          animationController: animationController!,
-                        ),
-                        Positioned(
-                          top: -10,
-                          right: -80,
-                          child: SizedBox(
-                            width: 300,
-                            height: 280,
-                            child:
-                                Image.asset('assets/images/dippy_whole2.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    popUpContent: Container(
-                      padding: EdgeInsets.all(15),
-                      child: CustomNumpad(),
-                    ),
-                    cardTag: 'customerservicedialog'),
-              ),
-            ],
-          )
-        ],
-      ),
+      child: (deviceOrientation == Orientation.landscape)
+          ? landScapeLayout()
+          : portraitLayout(),
     ));
 
     //listViews.add(NumberRequest(cuetype: 'RT'));
@@ -353,6 +218,288 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     });
   }
 
+  Column landScapeLayout() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: PopUpCard(
+                  popUpDisplay: Stack(
+                    children: [
+                      MainCard(
+                        cardContent: Container(
+                          padding: EdgeInsets.only(
+                              left: 20, top: 20, right: 100, bottom: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.payments_rounded,
+                                          size: 60,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text('Bill Payment',
+                                            style: DippyAppTheme.headline)
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Container(
+                                    child: Text(
+                                        textAlign: TextAlign.justify,
+                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                        style: DippyAppTheme.body1),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / 2) * 1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController!,
+                      ),
+                      Positioned(
+                        top: -10,
+                        right: -80,
+                        child: SizedBox(
+                          width: 300,
+                          height: 280,
+                          child: Image.asset('assets/images/dippy_whole2.png'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  popUpContent: Container(
+                    padding: EdgeInsets.all(15),
+                    child: CustomNumpad(),
+                  ),
+                  cardTag: 'billingpaymentdialog'),
+            ),
+            Expanded(
+              child: PopUpCard(
+                  popUpDisplay: Stack(
+                    children: [
+                      MainCard(
+                        cardContent: Container(
+                          padding: EdgeInsets.only(
+                              left: 20, top: 20, right: 100, bottom: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.support_agent_rounded,
+                                          size: 60,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text('Customer Service',
+                                            style: DippyAppTheme.headline)
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Container(
+                                    child: Text(
+                                        textAlign: TextAlign.justify,
+                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                        style: DippyAppTheme.body1),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / 3) * 1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController!,
+                      ),
+                      Positioned(
+                        top: -10,
+                        right: -80,
+                        child: SizedBox(
+                          width: 300,
+                          height: 280,
+                          child: Image.asset('assets/images/dippy_whole2.png'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  popUpContent: Container(
+                    padding: EdgeInsets.all(15),
+                    child: CustomNumpad(),
+                  ),
+                  cardTag: 'customerservicedialog'),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Column portraitLayout() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: PopUpCard(
+                  popUpDisplay: Stack(
+                    children: [
+                      MainCard(
+                        cardContent: Container(
+                          padding: EdgeInsets.only(
+                              left: 20, top: 20, right: 100, bottom: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.payments_rounded,
+                                          size: 60,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text('Bill Payment',
+                                            style: DippyAppTheme.headline)
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Container(
+                                    child: Text(
+                                        textAlign: TextAlign.justify,
+                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                        style: DippyAppTheme.body1),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / 2) * 1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController!,
+                      ),
+                      Positioned(
+                        top: -10,
+                        right: -80,
+                        child: SizedBox(
+                          width: 300,
+                          height: 280,
+                          child: Image.asset('assets/images/dippy_whole2.png'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  popUpContent: Container(
+                    padding: EdgeInsets.all(15),
+                    child: CustomNumpad(),
+                  ),
+                  cardTag: 'billingpaymentdialog'),
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: PopUpCard(
+                  popUpDisplay: Stack(
+                    children: [
+                      MainCard(
+                        cardContent: Container(
+                          padding: EdgeInsets.only(
+                              left: 20, top: 20, right: 100, bottom: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.support_agent_rounded,
+                                          size: 60,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text('Customer Service',
+                                            style: DippyAppTheme.headline)
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Container(
+                                    child: Text(
+                                        textAlign: TextAlign.justify,
+                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                        style: DippyAppTheme.body1),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController!,
+                                curve: Interval((1 / 3) * 1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController!,
+                      ),
+                      Positioned(
+                        top: -10,
+                        right: -80,
+                        child: SizedBox(
+                          width: 300,
+                          height: 280,
+                          child: Image.asset('assets/images/dippy_whole2.png'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  popUpContent: Container(
+                    padding: EdgeInsets.all(15),
+                    child: CustomNumpad(),
+                  ),
+                  cardTag: 'customerservicedialog'),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
   Future<Widget> requestNumberContainer() async {
     return Container();
   }
@@ -380,6 +527,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       child: Scaffold(
         body: Container(

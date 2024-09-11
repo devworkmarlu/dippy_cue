@@ -12,15 +12,24 @@ class NumberRequest extends StatefulWidget {
 
 class _NumberRequestState extends State<NumberRequest> {
   AppUtility userFunctions = AppUtility();
+  AppUtility appHelper = AppUtility();
+  late String foundCueNumber;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: userFunctions.requestLatestNumber(widget.cuetype),
         builder: (context, snapShot) {
           if (snapShot.connectionState == ConnectionState.done) {
-            String foundNumber = "";
+            var foundNumber = [];
+            String cuetype = "";
+            String cuenum = "";
+
             if (snapShot.hasData) {
               foundNumber = snapShot.data!;
+
+              cuetype = foundNumber[0]['cuetype'];
+              cuenum = foundNumber[0]['cuenumber'];
+              foundCueNumber = cuenum;
             }
 
             return Container(
@@ -37,7 +46,7 @@ class _NumberRequestState extends State<NumberRequest> {
                         width: 10,
                       ),
                       Text(
-                        '$foundNumber',
+                        '$cuetype' + '$cuenum',
                         style: TextStyle(
                             fontSize: 60, fontWeight: FontWeight.bold),
                       )
@@ -51,7 +60,9 @@ class _NumberRequestState extends State<NumberRequest> {
                     children: [
                       TextButton.icon(
                           icon: Icon(Icons.numbers),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await proceedNewNumber(context);
+                          },
                           label: Text('Request Number')),
                       SizedBox(
                         width: 10,
@@ -72,6 +83,40 @@ class _NumberRequestState extends State<NumberRequest> {
             return requestLoading();
           }
         });
+  }
+
+  Future<void> proceedNewNumber(BuildContext context) async {
+    String addResponse =
+        await appHelper.addNewNumber(foundCueNumber, widget.cuetype);
+
+    if (addResponse != 'failed') {
+      Navigator.of(context).pop();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Add New Number'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(addResponse),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   Container requestLoading() {
