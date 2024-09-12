@@ -131,29 +131,33 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                 ),
               ),
               Expanded(
-                child: PopUpCard(
-                    popUpDisplay: MainCard(
-                      cardContent: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.payment_outlined),
-                            Text(
-                              'Priority Teller',
-                              style: DippyAppTheme.headline,
-                            )
-                          ],
+                child: Column(
+                  children: [
+                    PopUpCard(
+                        popUpDisplay: MainCard(
+                          cardContent: Container(
+                            padding: EdgeInsets.all(20),
+                            child: Row(
+                              children: [
+                                Icon(Icons.payment_outlined),
+                                Text(
+                                  'Priority Teller',
+                                  style: DippyAppTheme.headline,
+                                )
+                              ],
+                            ),
+                          ),
+                          animation: Tween<double>(begin: 0.0, end: 1.0)
+                              .animate(CurvedAnimation(
+                                  parent: animationController!,
+                                  curve: Interval((1 / 4) * 1, 1.0,
+                                      curve: Curves.fastOutSlowIn))),
+                          animationController: animationController!,
                         ),
-                      ),
-                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / 4) * 1, 1.0,
-                                  curve: Curves.fastOutSlowIn))),
-                      animationController: animationController!,
-                    ),
-                    popUpContent: NumberRequest(cuetype: 'PT'),
-                    cardTag: 'priorityteller'),
+                        popUpContent: NumberRequest(cuetype: 'PT'),
+                        cardTag: 'priorityteller')
+                  ],
+                ),
               ),
             ],
           ),
@@ -166,9 +170,8 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                         padding: EdgeInsets.all(20),
                         child: Row(
                           children: [
-                            Icon(Icons.payment_outlined),
-                            Text('Regular Customer Service',
-                                style: DippyAppTheme.headline)
+                            Icon(Icons.support_agent_rounded),
+                            Text('Regular CS', style: DippyAppTheme.headline)
                           ],
                         ),
                       ),
@@ -189,9 +192,9 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                         padding: EdgeInsets.all(20),
                         child: Row(
                           children: [
-                            Icon(Icons.payment_outlined),
+                            Icon(Icons.support_agent_rounded),
                             Text(
-                              'Priority Customer Service',
+                              'Priority CS',
                               style: DippyAppTheme.headline,
                             )
                           ],
@@ -438,35 +441,39 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                         cardContent: Container(
                           padding: EdgeInsets.only(
                               left: 20, top: 20, right: 100, bottom: 20),
-                          child: Row(
+                          child: Column(
                             children: [
-                              Expanded(
-                                  child: Column(
+                              Row(
                                 children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.support_agent_rounded,
-                                          size: 60,
+                                  Expanded(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.support_agent_rounded,
+                                              size: 60,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text('Customer Service',
+                                                style: DippyAppTheme.headline)
+                                          ],
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text('Customer Service',
-                                            style: DippyAppTheme.headline)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Container(
-                                    child: Text(
-                                        textAlign: TextAlign.justify,
-                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                        style: DippyAppTheme.body1),
-                                  )
+                                      ),
+                                      SizedBox(height: 30),
+                                      Container(
+                                        child: Text(
+                                            textAlign: TextAlign.justify,
+                                            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+                                            style: DippyAppTheme.body1),
+                                      )
+                                    ],
+                                  ))
                                 ],
-                              ))
+                              )
                             ],
                           ),
                         ),

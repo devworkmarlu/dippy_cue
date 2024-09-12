@@ -32,6 +32,7 @@ class _CustomNumpadState extends State<CustomNumpad> {
   bool acctTapped = false;
   bool showDetails = false;
   Widget customerDetailsContainer = Container();
+  late var deviceOrientation;
 
   AppUtility appUtil = AppUtility();
 
@@ -51,6 +52,9 @@ class _CustomNumpadState extends State<CustomNumpad> {
   Widget build(BuildContext context) {
     double buttonWidth = 100;
     double buttonLetterWidth = 50;
+    double inputFontSize = 50.0;
+    deviceOrientation = MediaQuery.of(context).orientation;
+
     return Container(
       child: Column(
         children: [
@@ -85,7 +89,10 @@ class _CustomNumpadState extends State<CustomNumpad> {
                                     },
                                     controller: zoneController,
                                     style: TextStyle(
-                                        fontSize: 50.0,
+                                        fontSize: (deviceOrientation ==
+                                                Orientation.portrait)
+                                            ? 25
+                                            : 50,
                                         fontWeight: FontWeight.bold),
                                     keyboardType: TextInputType.none,
                                     enabled: true,
@@ -112,7 +119,10 @@ class _CustomNumpadState extends State<CustomNumpad> {
                                     },
                                     controller: classController,
                                     style: TextStyle(
-                                        fontSize: 50.0,
+                                        fontSize: (deviceOrientation ==
+                                                Orientation.portrait)
+                                            ? 25
+                                            : 50,
                                         fontWeight: FontWeight.bold),
                                     keyboardType: TextInputType.none,
                                     enabled: true,
@@ -137,7 +147,10 @@ class _CustomNumpadState extends State<CustomNumpad> {
                                     },
                                     controller: acctController,
                                     style: TextStyle(
-                                        fontSize: 50.0,
+                                        fontSize: (deviceOrientation ==
+                                                Orientation.portrait)
+                                            ? 25
+                                            : 50,
                                         fontWeight: FontWeight.bold),
                                     keyboardType: TextInputType.none,
                                     enabled: true,
@@ -718,16 +731,21 @@ class _CustomNumpadState extends State<CustomNumpad> {
                         Container(
                           width: double.infinity,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
                                   Expanded(
-                                    child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text(
-                                          'Teller',
-                                          style: TextStyle(fontSize: 20),
-                                        )),
+                                    child: Container(
+                                      child: TextButton.icon(
+                                          icon: Icon(Icons.payment_rounded),
+                                          onPressed: () {},
+                                          label: Text(
+                                            'Teller',
+                                            style: DippyAppTheme.subtitle,
+                                          )),
+                                    ),
                                   )
                                 ],
                               ),
@@ -737,12 +755,16 @@ class _CustomNumpadState extends State<CustomNumpad> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text(
-                                          'Cust. Services',
-                                          style: TextStyle(fontSize: 20),
-                                        )),
+                                    child: Container(
+                                      child: TextButton.icon(
+                                          icon:
+                                              Icon(Icons.support_agent_rounded),
+                                          onPressed: () {},
+                                          label: Text(
+                                            'Cust. Service',
+                                            style: DippyAppTheme.subtitle,
+                                          )),
+                                    ),
                                   )
                                 ],
                               ),
