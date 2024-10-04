@@ -38,6 +38,8 @@ dependencies:
   shared_preferences: ^2.2.2
   webview_flutter: ^4.8.0
   popup_card: ^0.1.0
+  sqflite: ^2.2.5
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:

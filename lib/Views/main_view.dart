@@ -66,455 +66,8 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
         }
       }
     });
-    _initializeData();
+
     super.initState();
-  }
-
-  Future<void> _initializeData() async {
-    // Simulate loading data asynchronously
-
-    await Future.delayed(Duration(seconds: 1));
-    final SharedPreferences pref = await _pref;
-    var deviceOrientation = MediaQuery.of(context).orientation;
-    listViews.clear();
-    listViews.add(MainCard(
-      cardContent: const HeaderBanner(),
-      animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-          parent: animationController!,
-          curve: Interval((1 / 1) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-      animationController: animationController!,
-    ));
-    listViews.add(Container(
-      child: (deviceOrientation == Orientation.landscape)
-          ? landScapeLayout()
-          : portraitLayout(),
-    ));
-
-    //listViews.add(NumberRequest(cuetype: 'RT'));
-
-    listViews.add(Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    print('Hello world');
-                  },
-                  child: Container(
-                    child: PopUpCard(
-                        popUpDisplay: MainCard(
-                          cardContent: Container(
-                            padding: EdgeInsets.all(20),
-                            child: Row(
-                              children: [
-                                Icon(Icons.payment_outlined),
-                                Text('Regular Teller',
-                                    style: DippyAppTheme.headline)
-                              ],
-                            ),
-                          ),
-                          animation: Tween<double>(begin: 0.0, end: 1.0)
-                              .animate(CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / 4) * 1, 1.0,
-                                      curve: Curves.fastOutSlowIn))),
-                          animationController: animationController!,
-                        ),
-                        popUpContent: Container(
-                          child: NumberRequest(cuetype: 'RT'),
-                        ),
-                        cardTag: 'regularteller'),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    PopUpCard(
-                        popUpDisplay: MainCard(
-                          cardContent: Container(
-                            padding: EdgeInsets.all(20),
-                            child: Row(
-                              children: [
-                                Icon(Icons.payment_outlined),
-                                Text(
-                                  'Priority Teller',
-                                  style: DippyAppTheme.headline,
-                                )
-                              ],
-                            ),
-                          ),
-                          animation: Tween<double>(begin: 0.0, end: 1.0)
-                              .animate(CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / 4) * 1, 1.0,
-                                      curve: Curves.fastOutSlowIn))),
-                          animationController: animationController!,
-                        ),
-                        popUpContent: NumberRequest(cuetype: 'PT'),
-                        cardTag: 'priorityteller')
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: MainCard(
-                      cardContent: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.support_agent_rounded),
-                            Text('Regular CS', style: DippyAppTheme.headline)
-                          ],
-                        ),
-                      ),
-                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / 4) * 1, 1.0,
-                                  curve: Curves.fastOutSlowIn))),
-                      animationController: animationController!,
-                    ),
-                    popUpContent: NumberRequest(cuetype: 'RC'),
-                    cardTag: 'regularcustservice'),
-              ),
-              Expanded(
-                child: PopUpCard(
-                    popUpDisplay: MainCard(
-                      cardContent: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Icon(Icons.support_agent_rounded),
-                            Text(
-                              'Priority CS',
-                              style: DippyAppTheme.headline,
-                            )
-                          ],
-                        ),
-                      ),
-                      animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / 4) * 1, 1.0,
-                                  curve: Curves.fastOutSlowIn))),
-                      animationController: animationController!,
-                    ),
-                    popUpContent: NumberRequest(cuetype: 'PC'),
-                    cardTag: 'prioritycustomerservice'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ));
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  Column landScapeLayout() {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: PopUpCard(
-                  popUpDisplay: Stack(
-                    children: [
-                      MainCard(
-                        cardContent: Container(
-                          padding: EdgeInsets.only(
-                              left: 20, top: 20, right: 100, bottom: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Column(
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.payments_rounded,
-                                          size: 60,
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text('Bill Payment',
-                                            style: DippyAppTheme.headline)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Container(
-                                    child: Text(
-                                        textAlign: TextAlign.justify,
-                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                        style: DippyAppTheme.body1),
-                                  )
-                                ],
-                              ))
-                            ],
-                          ),
-                        ),
-                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / 2) * 1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
-                        animationController: animationController!,
-                      ),
-                      Positioned(
-                        top: -10,
-                        right: -80,
-                        child: SizedBox(
-                          width: 300,
-                          height: 280,
-                          child: Image.asset('assets/images/dippy_whole2.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  popUpContent: Container(
-                    padding: EdgeInsets.all(15),
-                    child: CustomNumpad(),
-                  ),
-                  cardTag: 'billingpaymentdialog'),
-            ),
-            Expanded(
-              child: PopUpCard(
-                  popUpDisplay: Stack(
-                    children: [
-                      MainCard(
-                        cardContent: Container(
-                          padding: EdgeInsets.only(
-                              left: 20, top: 20, right: 100, bottom: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Column(
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.support_agent_rounded,
-                                          size: 60,
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text('Customer Service',
-                                            style: DippyAppTheme.headline)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Container(
-                                    child: Text(
-                                        textAlign: TextAlign.justify,
-                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                        style: DippyAppTheme.body1),
-                                  )
-                                ],
-                              ))
-                            ],
-                          ),
-                        ),
-                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / 3) * 1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
-                        animationController: animationController!,
-                      ),
-                      Positioned(
-                        top: -10,
-                        right: -80,
-                        child: SizedBox(
-                          width: 300,
-                          height: 280,
-                          child: Image.asset('assets/images/dippy_whole2.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  popUpContent: Container(
-                    padding: EdgeInsets.all(15),
-                    child: CustomNumpad(),
-                  ),
-                  cardTag: 'customerservicedialog'),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  Column portraitLayout() {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: PopUpCard(
-                  popUpDisplay: Stack(
-                    children: [
-                      MainCard(
-                        cardContent: Container(
-                          padding: EdgeInsets.only(
-                              left: 20, top: 20, right: 100, bottom: 20),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Column(
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.payments_rounded,
-                                          size: 60,
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text('Bill Payment',
-                                            style: DippyAppTheme.headline)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 30),
-                                  Container(
-                                    child: Text(
-                                        textAlign: TextAlign.justify,
-                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                        style: DippyAppTheme.body1),
-                                  )
-                                ],
-                              ))
-                            ],
-                          ),
-                        ),
-                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / 2) * 1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
-                        animationController: animationController!,
-                      ),
-                      Positioned(
-                        top: -10,
-                        right: -80,
-                        child: SizedBox(
-                          width: 300,
-                          height: 280,
-                          child: Image.asset('assets/images/dippy_whole2.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  popUpContent: Container(
-                    padding: EdgeInsets.all(15),
-                    child: CustomNumpad(),
-                  ),
-                  cardTag: 'billingpaymentdialog'),
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: PopUpCard(
-                  popUpDisplay: Stack(
-                    children: [
-                      MainCard(
-                        cardContent: Container(
-                          padding: EdgeInsets.only(
-                              left: 20, top: 20, right: 100, bottom: 20),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: Column(
-                                    children: [
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.support_agent_rounded,
-                                              size: 60,
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Text('Customer Service',
-                                                style: DippyAppTheme.headline)
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 30),
-                                      Container(
-                                        child: Text(
-                                            textAlign: TextAlign.justify,
-                                            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-                                            style: DippyAppTheme.body1),
-                                      )
-                                    ],
-                                  ))
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / 3) * 1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
-                        animationController: animationController!,
-                      ),
-                      Positioned(
-                        top: -10,
-                        right: -80,
-                        child: SizedBox(
-                          width: 300,
-                          height: 280,
-                          child: Image.asset('assets/images/dippy_whole2.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  popUpContent: Container(
-                    padding: EdgeInsets.all(15),
-                    child: CustomNumpad(),
-                  ),
-                  cardTag: 'customerservicedialog'),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  Future<Widget> requestNumberContainer() async {
-    return Container();
-  }
-
-  void loadListViews() {
-    List.generate(listofBills.length, (index) {
-      listViews.add(Text('Hello World'));
-    });
   }
 
   @override
@@ -522,6 +75,22 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     animationController?.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  Future<bool> _initializeData() async {
+    print('Data Binding');
+    await cardList();
+
+    /* listViews = [];
+    listViews.add(MainCard(
+      cardContent: const HeaderBanner(),
+      animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+          parent: animationController!,
+          curve: Interval((1 / 1) * 1, 1.0, curve: Curves.fastOutSlowIn))),
+      animationController: animationController!,
+    )); */
+
+    return true;
   }
 
   Future<List<String>> getInitialData() async {
@@ -537,21 +106,48 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
 
     return Container(
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/bg_banner.jpg"),
-                  fit: BoxFit.cover)),
-          child: Stack(
-            children: <Widget>[
-              getMainListViewUI2(),
-              getAppBarUI(),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
+        body: RefreshIndicator(
+          onRefresh: resetMenu,
+          child: FutureBuilder<bool>(
+            future: _initializeData(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (!snapshot.hasData) {
+                return const SizedBox();
+              } else {
+                return Stack(
+                  children: <Widget>[loadBody(context)],
+                );
+              }
+            },
           ),
         ),
+      ),
+    );
+  }
+
+  Container loadBody(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/bg_banner.jpg"),
+              fit: BoxFit.cover)),
+      child: Stack(
+        children: <Widget>[
+          getMainListViewUI2(),
+          /* FutureBuilder(
+                future: loadMainCards(),
+                builder: (BuildContext context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return snapshot.data!;
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }), */
+          getAppBarUI(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
       ),
     );
   }
@@ -603,7 +199,7 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Dippy Customer Service Kiosk',
+                                  'Master Reader',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: DippyAppTheme.fontName,
@@ -636,6 +232,56 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
     );
   }
 
+  Future<void> resetMenu() async {
+    await Future.delayed(Duration(seconds: 5));
+    print('Refreshed');
+    setState(() {});
+  }
+
+  Future<void> cardList() async {
+    listViews = [];
+    listViews.add(Container(
+      child: Text('Hello World'),
+    ));
+    listViews.add(Container(
+      child: Text('Hello World'),
+    ));
+    listViews.add(Container(
+      child: Text('Hello World'),
+    ));
+    listViews.add(Container(
+      child: Text('Hello World'),
+    ));
+  }
+
+  Future<Widget> loadMainCards() async {
+    print('Is Refreshed');
+    await cardList();
+    animationController?.forward();
+    return ListView.builder(
+      controller: scrollController,
+      padding: EdgeInsets.only(
+        top: AppBar().preferredSize.height +
+            MediaQuery.of(context).padding.top +
+            24,
+        bottom: 62 + MediaQuery.of(context).padding.bottom,
+      ),
+      itemCount: listViews.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (BuildContext context, int index) {
+        animationController?.forward();
+        return listViews[index];
+        /*BodyMeasurementView(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                parent: animationController!,
+                curve:
+                Interval(index * 5, 1.0, curve: Curves.fastOutSlowIn))),
+            animationController: animationController!
+        )*/
+      },
+    );
+  }
+
   Widget getMainListViewUI2() {
     return ListView.builder(
       controller: scrollController,
@@ -657,34 +303,6 @@ class _MainViewState extends State<MainView> with TickerProviderStateMixin {
                 Interval(index * 5, 1.0, curve: Curves.fastOutSlowIn))),
             animationController: animationController!
         )*/
-        ;
-      },
-    );
-  }
-
-  Widget getMainListViewUI() {
-    return FutureBuilder<List<String>>(
-      future: getInitialData(),
-      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-        if (!snapshot.hasData) {
-          return const SizedBox();
-        } else {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
-            itemCount: snapshot.data!.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              animationController?.forward();
-              return const Text('Hello World');
-            },
-          );
-        }
       },
     );
   }
