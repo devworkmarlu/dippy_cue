@@ -1,4 +1,4 @@
-import 'package:dippy_cue/Views/main_view.dart';
+import 'package:dippy_cue/Screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MainView(),
+      home: const MainScreen(),
     );
   }
 }

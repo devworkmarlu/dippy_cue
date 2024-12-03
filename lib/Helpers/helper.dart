@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:dippy_cue/Helpers/WebRequest.dart';
 import 'package:dippy_cue/Widgets/box_container.dart';
@@ -285,6 +287,23 @@ class AppUtility {
     return retval;
   }
 
+  Future<Response> logUserDTR(String empid) async {
+    Response retval;
+    String? devid = await getDeviceId();
+
+    Map<String, String> parameters = {'deviceid': devid ?? '', 'empid': empid};
+
+    final formData =
+        FormData.fromMap({'purpose': 'logemployeedtr', 'payload': parameters});
+
+    Response response = await WebRequest.dataFetch(
+        'http://192.168.0.253/readers_api/dip_mod_api/web_app_controller.php',
+        formData);
+    retval = response;
+    print(retval);
+    return retval;
+  }
+
   Widget loadImageNetwork(imageUrl) {
     return Image.network(
       fit: BoxFit.cover,
@@ -313,5 +332,27 @@ class AppUtility {
             'http://192.168.0.253/readers_api/images/randimage/meme4.JPG');
       },
     );
+  }
+
+  Future<String?> getDeviceId() async {
+    String? deviceId;
+    // Create DeviceInfoPlugin
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+    try {
+      if (Platform.isAndroid) {
+        // Get Android device ID
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        deviceId = androidInfo.androidId;
+      } else if (Platform.isIOS) {
+        // Get iOS device ID
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        deviceId = iosInfo.identifierForVendor;
+      }
+    } catch (e) {
+      print('Error getting device ID: $e');
+    }
+
+    return deviceId;
   }
 }
