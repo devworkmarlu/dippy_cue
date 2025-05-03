@@ -300,7 +300,7 @@ class AppUtility {
         'http://192.168.0.253/readers_api/dip_mod_api/web_app_controller.php',
         formData);
     retval = response;
-    print(retval);
+    //print(retval);
     return retval;
   }
 

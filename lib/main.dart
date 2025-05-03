@@ -1,8 +1,16 @@
+import 'package:dippy_cue/Helpers/qrcode_state.dart';
 import 'package:dippy_cue/Screens/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => QRCodeState(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

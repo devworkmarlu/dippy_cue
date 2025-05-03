@@ -1,5 +1,7 @@
 import 'package:dippy_cue/Screens/ems_login_screen.dart';
 import 'package:dippy_cue/Screens/form_sample_page.dart';
+import 'package:dippy_cue/Screens/qrcode_attendance.dart';
+import 'package:dippy_cue/Screens/test_screen.dart';
 import 'package:dippy_cue/Views/main_view.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const EMSLoginScreen()));
+                          builder: (context) => const TestScreen()));
                 },
                 label: const Text('EMS'))
           ],
